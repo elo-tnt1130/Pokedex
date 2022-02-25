@@ -2,13 +2,13 @@ import { StyleSheet, Button } from "react-native";
 
 export default function CustomButton(props) {
 
-  const {text, color, displayColor, ...restProps } = props
+  const {text, color, displayColor, setTextParent, ...restProps } = props
 
-  console.log(text, color)
+  // console.log(text, color)
   
   return (
     <Button
-        onPress={()=> displayColor(color)}
+        onPress={()=> setTextParent(color)}
         title={text}
         color={color}
         accessibilityLabel={text}
