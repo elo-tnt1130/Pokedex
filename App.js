@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, FlatList, Text, View, Image } from "react-native";
 import CustomButton from "./components/CustomButton";
 import { getPokemon } from "./API/PokeApi";
 const image = {
@@ -17,14 +17,22 @@ export default function App() {
   useEffect(() => {
     getPokemon().then((datas) => {
       console.log(datas);
-      setListPokemon(datas);
+      setListPokemon(datas.results);
     });
-  });
+  }, []); // [] pour éviter une requête à l'infini
 
   const [textParent, setTextParent] = useState("Default");
   useEffect(() => {
-    console.log("Chargement du composant");
+    console.log("Composant chargé");
   });
+
+  const Item = ({ title }) => (
+    <View style={styles.item}>
+      <Text style={styles.pokemon}>{title}</Text>
+    </View>
+  );
+  const renderItem = ({ item }) => <Item title={item.name} /> ;
+ 
 
   return (
     // possible d'utiliser le useState et le setTextParent avec des URLs pour afficher des images en lieu et place du nom de la couleur
@@ -49,6 +57,36 @@ export default function App() {
           text={"EVOLI"}
           setTextParent={setTextParent}
         />
+
+        {/* <FlatList
+          data={pokemons}
+          renderItem={
+            ({item}) => 
+              <Text style={styles.item}>
+                {item.name}
+              </Text>
+          }
+        /> */}
+
+        <FlatList
+          data={listPokemon}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.name}
+          // numColumns={3}
+          style={styles.list}
+          onEndReached={() => {
+            console.log("end")
+          }}
+        />
+
+        {/* <FlatList
+          data={[
+            {key: 'Evoli'},
+            {key: 'Mentali'}, 
+            {key: 'Noctali'}
+          ]}
+          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+        /> */}
       </View>
       <StatusBar style="auto" />
     </>
@@ -72,4 +110,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  pokemon: {
+    color: "orange"
+  }
 });
