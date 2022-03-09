@@ -14,25 +14,38 @@ export default function App() {
   // };
 
   const [listPokemon, setListPokemon] = useState([]);
-  useEffect(() => {
-    getPokemon().then((datas) => {
-      console.log(datas);
-      setListPokemon(datas.results);
-    });
-  }, []); // [] pour éviter une requête à l'infini
+  const [nextPage, setNextPage] = useState("https://pokeapi.co/api/v2/pokemon")
+
+  useEffect(()=> {
+    loadPokemon(nextPage)
+  }, [])
+
+  const loadPokemon = (url) => {
+    getPokemon(url).then(datas => {
+      setListPokemon([...listPokemon, ...datas.results])
+      setNextPage(datas.next)
+    })
+  }
+
+  // useEffect(() => {
+  //   getPokemon().then((datas) => {
+  //     console.log(datas);
+  //     setListPokemon(datas.results);
+  //   });
+  // }, []); // [] pour éviter une requête à l'infini
 
   const [textParent, setTextParent] = useState("Default");
   useEffect(() => {
     console.log("Composant chargé");
   });
 
-  const Item = ({ title }) => (
+  const Item = ({ title, url }) => (
     <View style={styles.item}>
+      {/* <Image source={{ uri: url }} resizeMode="contain" style={styles.image} /> */}
       <Text style={styles.pokemon}>{title}</Text>
     </View>
   );
-  const renderItem = ({ item }) => <Item title={item.name} /> ;
- 
+  const renderItem = ({ item }) => <Item title={item.name} url={item.url} />;
 
   return (
     // possible d'utiliser le useState et le setTextParent avec des URLs pour afficher des images en lieu et place du nom de la couleur
@@ -41,7 +54,7 @@ export default function App() {
       <View style={styles.container}>
         <Text style={styles.baseText}>POKEDEX</Text>
         <Text>{textParent}</Text>
-        <CustomButton
+        {/* <CustomButton
           color={"red"}
           text={"NOCTALI"}
           setTextParent={setTextParent}
@@ -56,16 +69,6 @@ export default function App() {
           color={"turquoise"}
           text={"EVOLI"}
           setTextParent={setTextParent}
-        />
-
-        {/* <FlatList
-          data={pokemons}
-          renderItem={
-            ({item}) => 
-              <Text style={styles.item}>
-                {item.name}
-              </Text>
-          }
         /> */}
 
         <FlatList
@@ -74,8 +77,10 @@ export default function App() {
           keyExtractor={(item) => item.name}
           // numColumns={3}
           style={styles.list}
+          onEndReachedThreshold={0.5}
           onEndReached={() => {
-            console.log("end")
+            loadPokemon(nextPage)
+            console.log("end");
           }}
         />
 
@@ -111,6 +116,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   pokemon: {
-    color: "orange"
-  }
+    color: "orange",
+  },
 });
