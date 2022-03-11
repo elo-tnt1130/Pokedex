@@ -12,16 +12,19 @@ import { useState } from "react";
 export default function PokemonCard(props) {
   const { url, name, ...restProps } = props;
 
-  const [pokemonDatas, setPokemonDatas] = useState([]);
+  const [pokemonData, setPokemonData] = useState([]);
   const [pokemonImg, setPokemonImg] = useState(null);
+  // console.log(pokemonData)
 
-  if (pokemonDatas.lenght === 0) {
+  if (pokemonData.length === 0) {
     getPokemon(url).then((data) => {
-      setPokemonDatas(data);
-      getPokemon(data.forms[0].url).then((imgData) => {
+      setPokemonData(data);
+      getPokemon(data.forms[0].url).then(imgData => {
         setPokemonImg(imgData.sprites);
       });
     });
+  // } else {
+  //   console.log('It is broken dude')
   }
 
   return (
@@ -36,23 +39,20 @@ export default function PokemonCard(props) {
       <View style={styles.containerImage}>
         {pokemonImg ? (
           <Image
-            resizeMode="contain"
             style={styles.image}
             source={{ uri: pokemonImg.front_default }}
           />
         ) : (
           <Image
-            resizeMode="contain"
             style={styles.image}
-            // source={{
-            //   uri: "https://www.freepngimg.com/thumb/pokemon/20708-7-pokeball-hd.png"
-            // }}
-            source={{ uri: "https://c.tenor.com/8sTMqGWjYAQAAAAC/ball-pokemon.gif" }}
+            source={{
+              uri: "https://c.tenor.com/8sTMqGWjYAQAAAAC/ball-pokemon.gif",
+            }}
           />
         )}
       </View>
 
-      <View style={styles.containerButton}>
+      {/* <View style={styles.containerButton}>
         <Button
           // icon={
           //   <Icon name="eye" color="#ffffff" iconStyle={{ marginRight: 10 }} />
@@ -65,7 +65,7 @@ export default function PokemonCard(props) {
           }}
           title="+"
         />
-      </View>
+      </View> */}
     </TouchableOpacity>
   );
 }
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     height: 150,
     padding: 5,
     marginBottom: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
   containerImage: {
     height: "80%",
@@ -89,20 +89,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "white",
     borderRadius: 15,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
-    shadowColor: "black"
+    shadowColor: "black",
   },
   pokemonName: {
     color: "orange",
     height: 20,
-    textAlign: "center"
+    textAlign: "center",
   },
   image: {
     flex: 1,
     justifyContent: "center",
     width: "100%",
-    height: "100%"
+    height: "100%",
   },
 });
