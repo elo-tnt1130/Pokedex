@@ -10,7 +10,7 @@ import { getPokemon } from "../API/PokeApi";
 import { useState } from "react";
 
 export default function PokemonCard(props) {
-  const { url, name, ...restProps } = props;
+  const { url, name, navigation, ...restProps } = props;
 
   const [pokemonData, setPokemonData] = useState([]);
   const [pokemonImg, setPokemonImg] = useState(null);
@@ -19,18 +19,20 @@ export default function PokemonCard(props) {
   if (pokemonData.length === 0) {
     getPokemon(url).then((data) => {
       setPokemonData(data);
-      getPokemon(data.forms[0].url).then(imgData => {
+      getPokemon(data.forms[0].url).then((imgData) => {
         setPokemonImg(imgData.sprites);
       });
     });
-  // } else {
-  //   console.log('It is broken dude')
+    // } else {
+    //   console.log('It is broken dude')
   }
 
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => console.log("navigate")}
+      onPress={() =>
+        navigation.navigate("PokemonDetailsScreen", { datas: pokemonData })
+      }
     >
       <View style={styles.containerInfo}>
         <Text style={styles.pokemonName}>{name}</Text>

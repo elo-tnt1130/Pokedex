@@ -5,7 +5,9 @@ import PokemonCard from "../components/PokemonCard";
 import { getPokemon } from "../API/PokeApi";
 
 
-export default function Home() {
+export default function Home(props) {
+  const {route, navigation, ...restProps } = props
+
   const image = {
     uri: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Forig07.deviantart.net%2F1e35%2Ff%2F2014%2F072%2Fa%2Ff%2Fumbreon_running__gif_animation__by_krazeeladee-d7a2fba.gif&f=1&nofb=1",
   };
@@ -39,7 +41,7 @@ export default function Home() {
           data={listPokemon}
           numColumns={3}
           renderItem={({ item }) => (
-            <PokemonCard name={item.name} url={item.url} />
+            <PokemonCard name={item.name} url={item.url} navigation={navigation}/>
           )}
           keyExtractor={(item) => item.name}
           style={styles.list}

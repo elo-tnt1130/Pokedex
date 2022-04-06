@@ -1,4 +1,7 @@
 import Home from "../screens/Home";
+import Team from "../screens/Team";
+import Search from "../screens/Search";
+import Settings from "../screens/Settings";
 import PokemonDetails from "../screens/PokemonDetails";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,10 +16,29 @@ function PokemonStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="HomeScreen" component={Home} />
-      {/* <Stack.Screen name="PokemonDetailsScreen" component={PokemonDetails} /> */}
+      <Stack.Screen name="PokemonDetailsScreen" component={PokemonDetails} />
     </Stack.Navigator>
   );
 }
+
+function SearchStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="SearchScreen" component={Search} />
+      <Stack.Screen name="PokemonDetailsScreen" component={PokemonDetails} />
+    </Stack.Navigator>
+  );
+}
+
+function TeamStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="TeamScreen" component={Team} />
+      <Stack.Screen name="PokemonDetailsScreen" component={PokemonDetails} />
+    </Stack.Navigator>
+  );
+}
+
 
 export default function Navigation() {
   return (
@@ -26,19 +48,38 @@ export default function Navigation() {
           name="Home"
           component={PokemonStack}
           options={{
-            title: "Pokedex",
+            // title: "Home",
             headerTintColor: "white",
             headerStyle: { backgroundColor: "red" },
           }}
         />
-        {/* <Tab.Screen
-          name="PokemonDetails"
-          component={PokemonStack}
+        <Tab.Screen
+          name="Search"
+          component={SearchStack}
           options={{
+            // title: "Search",
             headerTintColor: "white",
             headerStyle: { backgroundColor: "red" },
           }}
-        /> */}
+        />
+        <Tab.Screen
+          name="Team"
+          component={TeamStack}
+          options={{
+            // title: "Team",
+            headerTintColor: "white",
+            headerStyle: { backgroundColor: "red" },
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            // title: "Réglages",
+            headerTintColor: "white",
+            headerStyle: { backgroundColor: "red" },
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
