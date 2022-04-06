@@ -10,22 +10,6 @@ export default function Home() {
     uri: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Forig07.deviantart.net%2F1e35%2Ff%2F2014%2F072%2Fa%2Ff%2Fumbreon_running__gif_animation__by_krazeeladee-d7a2fba.gif&f=1&nofb=1",
   };
 
-  // const displayColor = (color) =>{
-  //   console.log(color)
-  // };
-
-  // const { route, navigation, ...restProps } = props;
-  // const [datas, setDatas] = useState([]);
-
-  // let nextUrl;
-
-  // if (datas.length === 0 ) {
-  //   getPokemon().then(datas=>{
-  //     setDatas(datas)
-  //     nextUrl = datas.next ? datas.next: null
-  //   })
-  // }
-
   const [listPokemon, setListPokemon] = useState([]);
   const [nextPage, setNextPage] = useState("https://pokeapi.co/api/v2/pokemon");
 
@@ -50,7 +34,6 @@ export default function Home() {
       <Image source={image} resizeMode="contain" style={styles.image}></Image>
       <View style={styles.container}>
         <Text style={styles.baseText}>POKEDEX</Text>
-        {/* <Text>{textParent}</Text> */}
 
         <FlatList
           data={listPokemon}
