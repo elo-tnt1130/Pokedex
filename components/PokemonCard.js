@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { getPokemon } from "../API/PokeApi";
 import { useState } from "react";
 
@@ -23,8 +16,6 @@ export default function PokemonCard(props) {
         setPokemonImg(imgData.sprites);
       });
     });
-    // } else {
-    //   console.log('It is broken dude')
   }
 
   return (
@@ -35,14 +26,14 @@ export default function PokemonCard(props) {
       }
     >
       <View style={styles.containerInfo}>
-        <Text style={styles.pokemonName}>{name}</Text>
+        <Text style={styles.pokemonName}>{name.toUpperCase()}</Text>
       </View>
 
       <View style={styles.containerImage}>
         {pokemonImg ? (
           <Image
             style={styles.image}
-            source={{ uri: pokemonImg.front_default }}
+            source={{ uri: pokemonData.sprites.other["official-artwork"].front_default }}
           />
         ) : (
           <Image
@@ -53,21 +44,6 @@ export default function PokemonCard(props) {
           />
         )}
       </View>
-
-      {/* <View style={styles.containerButton}>
-        <Button
-          // icon={
-          //   <Icon name="eye" color="#ffffff" iconStyle={{ marginRight: 10 }} />
-          // }
-          buttonStyle={{
-            borderRadius: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 0,
-          }}
-          title="+"
-        />
-      </View> */}
     </TouchableOpacity>
   );
 }
@@ -96,15 +72,15 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowColor: "black",
   },
-  pokemonName: {
-    color: "orange",
-    height: 20,
-    textAlign: "center",
-  },
   image: {
     flex: 1,
     justifyContent: "center",
     width: "100%",
     height: "100%",
+  },
+  pokemonName: {
+    color: "#B00A00",
+    height: 20,
+    textAlign: "center",
   },
 });
