@@ -50,7 +50,7 @@ export default function Navigation() {
           options={{
             // title: "Home",
             headerTintColor: "white",
-            headerStyle: { backgroundColor: "red" },
+            headerStyle: { backgroundColor: "#b00a00" },
           }}
         />
         <Tab.Screen
@@ -59,7 +59,7 @@ export default function Navigation() {
           options={{
             // title: "Search",
             headerTintColor: "white",
-            headerStyle: { backgroundColor: "red" },
+            headerStyle: { backgroundColor: "#b00a00" },
           }}
         />
         <Tab.Screen
@@ -68,7 +68,7 @@ export default function Navigation() {
           options={{
             // title: "Team",
             headerTintColor: "white",
-            headerStyle: { backgroundColor: "red" },
+            headerStyle: { backgroundColor: "#b00a00" },
           }}
         />
         <Tab.Screen
