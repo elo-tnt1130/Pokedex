@@ -7,7 +7,6 @@ export default function PokemonCard(props) {
 
   const [pokemonData, setPokemonData] = useState([]);
   const [pokemonImg, setPokemonImg] = useState(null);
-  // console.log(pokemonData)
 
   if (pokemonData.length === 0) {
     getPokemon(url).then((data) => {

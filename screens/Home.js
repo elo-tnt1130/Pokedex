@@ -26,10 +26,11 @@ export default function Home(props) {
     });
   };
 
-  const [textParent, setTextParent] = useState("Default");
+  // const [textParent, setTextParent] = useState("Default");
+
   useEffect(() => {
-    console.log("Composant chargé");
-  });
+    console.log("Composant chargé en page d'accueil");
+  }, []);
 
   return (
     <>
@@ -48,7 +49,7 @@ export default function Home(props) {
           onEndReachedThreshold={0.5}
           onEndReached={() => {
             loadPokemon(nextPage);
-            console.log("end");
+            // console.log("end");
           }}
         />
       </View>
