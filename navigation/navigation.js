@@ -9,6 +9,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
 
+import { Ionicons } from "@expo/vector-icons";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -39,11 +41,14 @@ function TeamStack() {
   );
 }
 
-
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarActiveTintColor: "#b00a00",
+        }}
+      >
         <Tab.Screen
           name="Home"
           component={PokemonStack}
@@ -51,6 +56,15 @@ export default function Navigation() {
             // title: "Home",
             headerTintColor: "white",
             headerStyle: { backgroundColor: "#b00a00" },
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="md-home"
+                  size={24}
+                  color={tabInfo.focused ? "#b00a00" : "#707070"}
+                />
+              );
+            },
           }}
         />
         <Tab.Screen
@@ -60,6 +74,15 @@ export default function Navigation() {
             // title: "Search",
             headerTintColor: "white",
             headerStyle: { backgroundColor: "#b00a00" },
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="md-search"
+                  size={24}
+                  color={tabInfo.focused ? "#b00a00" : "#707070"}
+                />
+              );
+            },
           }}
         />
         <Tab.Screen
@@ -69,15 +92,33 @@ export default function Navigation() {
             // title: "Team",
             headerTintColor: "white",
             headerStyle: { backgroundColor: "#b00a00" },
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="md-bookmark-outline"
+                  size={24}
+                  color={tabInfo.focused ? "#b00a00" : "#707070"}
+                />
+              );
+            },
           }}
         />
         <Tab.Screen
           name="Settings"
           component={Settings}
           options={{
-            // title: "Réglages",
+            // title: "Settings",
             headerTintColor: "white",
-            headerStyle: { backgroundColor: "red" },
+            headerStyle: { backgroundColor: "#b00a00" },
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="md-settings-outline"
+                  size={24}
+                  color={tabInfo.focused ? "#b00a00" : "#707070"}
+                />
+              );
+            },
           }}
         />
       </Tab.Navigator>
