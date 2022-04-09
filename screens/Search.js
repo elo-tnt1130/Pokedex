@@ -21,7 +21,7 @@ export default function Search(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0,
+    flex: 3,
     alignItems: "center",
   }
 });

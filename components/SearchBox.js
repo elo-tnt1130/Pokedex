@@ -15,29 +15,31 @@ const searchPokemonInput = (props) => {
 
   const handleSearchedText = (text) => {
     setText(text);
-    getSearchedPokemon(text).then((res) => {
-      setSearchedPokemon(res);
-    });
+    if (text) {
+      getSearchedPokemon(text).then((res) => {
+        setSearchedPokemon(res);
+      });
+    }
   };
 
   // useEffect(()=>{console.log('test ' + searchedPokemon);}, [])
 
   return (
     <>
-      <SafeAreaView>
+      <View>
         <TextInput
           style={styles.input}
           onChangeText={handleSearchedText}
           value={text}
           placeholder="Rechercher un pokemon"
         />
-      </SafeAreaView>
+      </View>
       <View>
         {searchedPokemon ? (
-          <PokemonCardSearch 
-            data={searchedPokemon} 
+          <PokemonCardSearch
+            data={searchedPokemon}
             // url={}
-            navigation={navigation} 
+            navigation={navigation}
           />
         ) : (
           <Text>Aucun résultat</Text>
@@ -48,12 +50,8 @@ const searchPokemonInput = (props) => {
 };
 
 const styles = StyleSheet.create({
-  SafeAreaView: {
-    width: "100%",
-  },
   input: {
-    // height: 40,
-    width: "100%",
+    width: 200,
     margin: 12,
     borderWidth: 1,
     padding: 15,

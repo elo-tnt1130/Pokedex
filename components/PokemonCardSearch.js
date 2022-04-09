@@ -20,8 +20,8 @@ export default function PokemonCardSearch(props) {
       <View style={styles.containerImage}>
         <Image
           style={styles.image}
-          // source={{ uri: data.sprites.other["official-artwork"].front_default }}
-          source={{ uri: data.sprites.front_default }}
+          source={{ uri: data.sprites.other["official-artwork"].front_default }}
+          // source={{ uri: data.sprites.front_default }}
           resizeMode={"center"}
         />
       </View>
@@ -31,22 +31,22 @@ export default function PokemonCardSearch(props) {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    width: "100%",
+    flex: 2,
+    width:200,
+    alignItems: "center",
   },
   containerImage: {
-    height: "80%",
-    width: "100%",
+    height: "25%",
+    width: "80%",
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "white",
     borderRadius: 15,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowColor: "black",
-    borderRadius: 25
+    
+    borderColor: "blue",
   },
   image: {
     flex: 1,
