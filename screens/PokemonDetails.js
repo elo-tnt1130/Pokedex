@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, Text, View, Image } from "react-native";
 import { getPokemon } from "../API/PokeApi";
-import {backgroundColors} from "../utils/backgroundColors"
+// import {backgroundColors} from "../utils/backgroundColors"
+
 
 export default function PokemonDetails(props) {
   const { route, navigation, ...restProps } = props;
@@ -52,6 +53,65 @@ export default function PokemonDetails(props) {
     });
   };
 
+  const pokemonType = (type, styles) => {
+    switch (type) {
+      case "grass":
+        return styles.grass;
+        break;
+      case "water":
+        return styles.water;
+        break;
+      case "fire":
+        return styles.fire;
+        break;
+      case "bug":
+        return styles.bug;
+        break;
+      case "normal":
+        return styles.normal;
+        break;
+      case "poison":
+        return styles.poison;
+        break;
+      case "flying":
+        return styles.flying;
+        break;
+      case "steel":
+        return styles.steel;
+        break;
+      case "dark":
+        return styles.dark;
+        break;
+      case "ice":
+        return styles.ice;
+        break;
+      case "dragon":
+        return styles.dragon;
+        break;
+      case "fighting":
+        return styles.fighting;
+        break;
+      case "psychic":
+        return styles.psychic;
+        break;
+      case "fairy":
+        return styles.typeFee;
+        break;
+      case "ground":
+        return styles.typeSol;
+        break;
+      case "rock":
+        return styles.rock;
+        break;
+      case "ghost":
+        return styles.ghost;
+        break;
+      case "electric":
+        return styles.electric;
+        break;
+    }
+  };
+
   useEffect(() => {
     pokemonTypes();
     pokemonDescription(moreDetails);
@@ -70,11 +130,11 @@ export default function PokemonDetails(props) {
 
       <View style={styles.containerTypes}>
         <View style={styles.type}>
-          <Text style={styles.type}>{pokeType1.toUpperCase()}</Text>
+          <Text style={[pokemonType(pokeType1, styles), styles.type]}>{pokeType1.toUpperCase()}</Text>
         </View>
         {pokeType2 ? (
           <View style={styles.type}>
-            <Text style={styles.type}>{pokeType2.toUpperCase()}</Text>
+            <Text style={[pokemonType(pokeType2, styles), styles.type]}>{pokeType2.toUpperCase()}</Text>
           </View>
         ) : (
           <></>
@@ -83,12 +143,18 @@ export default function PokemonDetails(props) {
 
       <View style={styles.containerDimensions}>
         <Text style={styles.title}>Dimensions</Text>
-        <Text style={styles.pokeDescription}>
-          Height : {pokemonData.height}"
-        </Text>
-        <Text style={styles.pokeDescription}>
-          Weight : {pokemonData.weight} lbs
-        </Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ flex: 1 }}>
+            <Text style={styles.pokeDescription}>
+              Height : {pokemonData.height}"
+            </Text>
+          </Text>
+          <Text style={{ flex: 1 }}>
+            <Text style={styles.pokeDescription}>
+              Weight : {pokemonData.weight} lbs
+            </Text>
+          </Text>
+        </View>
       </View>
 
       <View style={styles.containerText}>
@@ -99,20 +165,34 @@ export default function PokemonDetails(props) {
       </View>
 
       <View style={styles.containerText}>
-        <Text style={styles.title}>Base specs</Text>
-        <Text style={styles.pokeDescription}>
-          {hp} : {hpStat}
-        </Text>
-        <Text style={styles.pokeDescription}>
-          {defense} : {defenseStat}
-        </Text>
-        <Text style={styles.pokeDescription}>
-          {attack} : {attackStat}
-        </Text>
-        <Text style={styles.pokeDescription}>
-          {speed} : {speedStat}
-        </Text>
+        <Text style={styles.title}>Base stats</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ flex: 1 }}>
+            <Text style={styles.pokeDescription}>
+              {hp} : {hpStat}
+            </Text>{" "}
+          </Text>
+          <Text style={{ flex: 1 }}>
+            <Text style={styles.pokeDescription}>
+              {defense} : {defenseStat}
+            </Text>
+          </Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ flex: 1 }}>
+            <Text style={styles.pokeDescription}>
+              {attack} : {attackStat}
+            </Text>
+          </Text>
+          <Text style={{ flex: 1 }}>
+            <Text style={styles.pokeDescription}>
+              {speed} : {speedStat}
+            </Text>
+          </Text>
+        </View>
       </View>
+
+
     </>
   );
 }
@@ -132,9 +212,18 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 15,
   },
+  containerSpecs: {
+    backgroundColor: "white",
+    marginBottom: 10,
+    marginHorizontal: 25,
+    padding: 10,
+    borderRadius: 15,
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
   pokeDescriptionText: {
     marginTop: 3,
-    fontSize: 15
+    fontSize: 15,
   },
   pokeDescription: {
     fontSize: 15,
@@ -146,11 +235,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   type: {
-    // backgroundColor: "yellow",
-    backgroundColor: "violet",
     margin: 3,
-    padding: 3,
-    borderRadius: 50,
+    padding: 4,
+    borderRadius: 10, 
+    overflow: "hidden"
   },
   containerImage: {
     height: "20%",
@@ -163,7 +251,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowColor: "black",
-    marginBottom: 20,
+    marginBottom: 13,
   },
   image: {
     flex: 1,
@@ -182,7 +270,27 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   title: {
-    fontWeight: 'bold',
-    alignSelf: "center"
-  }
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginBottom: "1%",
+  },
+
+  grass: { backgroundColor: "#78C850" },
+  fire: { backgroundColor: "#F08030" },
+  water: { backgroundColor: "#6890F0" },
+  bug: { backgroundColor: "#A8B820" },
+  normal: { backgroundColor: "#A8A878" },
+  poison: { backgroundColor: "#A040A0" },
+  electric: { backgroundColor: "#F8D030" },
+  typeSol: { backgroundColor: "#E0C068" },
+  typeFee: { backgroundColor: "#EE99AC" },
+  fighting: { backgroundColor: "#C03028" },
+  psychic: { backgroundColor: "#F85888" },
+  rock: { backgroundColor: "#B8A038" },
+  ghost: { backgroundColor: "#705898" },
+  ice: { backgroundColor: "#98D8D8" },
+  dragon: { backgroundColor: "#7038F8" },
+  steel: { backgroundColor: "#F8F9FA" },
+  dark: { backgroundColor: "#705848" },
+  flying: { backgroundColor: "#A890F0" },
 });
