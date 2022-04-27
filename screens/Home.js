@@ -29,7 +29,7 @@ export default function Home(props) {
   // const [textParent, setTextParent] = useState("Default");
 
   useEffect(() => {
-    console.log("Composant chargé en page d'accueil");
+    // console.log("Composant chargé en page d'accueil");
   }, []);
 
   return (
