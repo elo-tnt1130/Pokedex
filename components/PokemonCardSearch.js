@@ -10,7 +10,7 @@ export default function PokemonCardSearch(props) {
       style={styles.container}
       onPress={() =>
         navigation.navigate("PokemonDetailsScreen", {
-          data: data,
+          datas: data,
         })
       }
     >
@@ -32,7 +32,7 @@ export default function PokemonCardSearch(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    width:200,
+    width: 200,
     alignItems: "center",
   },
   containerImage: {
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowColor: "black",
-    
+
     borderColor: "blue",
   },
   image: {

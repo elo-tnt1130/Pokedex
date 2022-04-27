@@ -1,6 +1,3 @@
-//* results : pokemon(s) or error
-//* search by name and by type
-
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, TextInput, Text, View } from "react-native";
 import PokemonCard from "./PokemonCard";
@@ -13,8 +10,7 @@ const searchPokemonInput = (props) => {
 
   const { route, navigation, ...restProps } = props;
 
-  const handleSearchedText = (text) => {
-    setText(text);
+  const handleSearchedText = () => {
     if (text) {
       getSearchedPokemon(text).then((res) => {
         setSearchedPokemon(res);
@@ -29,8 +25,9 @@ const searchPokemonInput = (props) => {
       <View>
         <TextInput
           style={styles.input}
-          onChangeText={handleSearchedText}
+          onChangeText={setText}
           value={text}
+          onSubmitEditing={handleSearchedText}
           placeholder="Rechercher un pokemon"
         />
       </View>

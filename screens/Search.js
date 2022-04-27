@@ -11,7 +11,7 @@ export default function Search(props) {
     <>
       <View style={styles.container}>
 
-        <SearchPokemon></SearchPokemon>
+        <SearchPokemon navigation={navigation}></SearchPokemon>
 
       </View>
       <StatusBar style="auto" />
