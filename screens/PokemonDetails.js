@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Button,
+  ScrollView,
+} from "react-native";
 import { getPokemon } from "../API/PokeApi";
-// import {backgroundColors} from "../utils/backgroundColors"
-
+import { retrieveData, storeData } from "../utils/localStorage";
 
 export default function PokemonDetails(props) {
   const { route, navigation, ...restProps } = props;
@@ -11,25 +18,26 @@ export default function PokemonDetails(props) {
   const imgFrontDefault = pokemonData.sprites.front_default;
   const imgBackDefault = pokemonData.sprites.back_default;
   const moreDetails = pokemonData.species.url;
+
   const [pokemonDesc, setPokemonDesc] = useState("");
   const typesPokemon = pokemonData.types;
   const [pokeType1, setPokeType1] = useState("");
   const [pokeType2, setPokeType2] = useState("");
 
+  const [team, setTeam] = useState([]);
+
   const hp = pokemonData.stats[0].stat.name;
   const hpStat = pokemonData.stats[0].base_stat;
-  const defense = pokemonData.stats[1].stat.name;
-  const defenseStat = pokemonData.stats[1].base_stat;
-  const attack = pokemonData.stats[2].stat.name;
-  const attackStat = pokemonData.stats[2].base_stat;
+  const defense = pokemonData.stats[2].stat.name;
+  const defenseStat = pokemonData.stats[2].base_stat;
+  const attack = pokemonData.stats[1].stat.name;
+  const attackStat = pokemonData.stats[1].base_stat;
   const speed = pokemonData.stats[5].stat.name;
   const speedStat = pokemonData.stats[5].base_stat;
 
   const pokemonTypes = (url) => {
     getPokemon(url).then(() => {
       let count = 0;
-      let precedentType = "";
-      console.log(typesPokemon);
 
       typesPokemon.forEach((type) => {
         if (count < 2) {
@@ -95,10 +103,10 @@ export default function PokemonDetails(props) {
         return styles.psychic;
         break;
       case "fairy":
-        return styles.typeFee;
+        return styles.fairy;
         break;
       case "ground":
-        return styles.typeSol;
+        return styles.ground;
         break;
       case "rock":
         return styles.rock;
@@ -112,17 +120,49 @@ export default function PokemonDetails(props) {
     }
   };
 
+  const addTitle = "Add to my team";
+  const removeTitle = "Remove from my team";
+  const addColor = "#00bf00";
+  const removeColor = "red";
+
+  const addToMyTeam = () => {
+    let myTeam = [pokemonData, ...team];
+
+    if (myTeam.length <= 6) {
+      setTeam(myTeam); // set le tableau avec la team créée au dessus
+
+      storeData("Team", JSON.stringify(myTeam)); // enregistre la data dans Team et la stringify (localStorage)
+    }
+  };
+
+  const removeFromMyTeam = () => {
+    let myTeam = team.filter((pokemon) => {
+      //on passe un pokemon en entrée
+      return pokemon.name != pokemonData.name; // on retourne les noms différents de celui du pokemon actuel
+    });
+
+    setTeam(myTeam); // on set myTeam sans le pokemon actuel
+
+    storeData("Team", JSON.stringify(myTeam)); // on enregistre le changement dans Team (localStorage)
+  };
+
   useEffect(() => {
+    retrieveData("Team").then((res) => {
+      // on récupère la donnée stockée en localStorage
+      if (res) {
+        // si la réponse contient des pokemons
+        let datas = JSON.parse(res); // on set datas avec un parse de res (qui contient JSON.stringify(myTeam))
+        setTeam(datas); // on set team avec datas
+      }
+    });
+
     pokemonTypes();
     pokemonDescription(moreDetails);
   }, []);
 
   return (
     <>
-      {/* <Text style={styles.pokemonName}>{pokemonData.forms[0].name.toUpperCase()}</Text> */}
-      {/* <Text style={styles.pokemonName}>{pokemonData.species.name.toUpperCase()}</Text> */}
       <Text style={styles.pokemonName}>{pokemonData.name.toUpperCase()}</Text>
-
       <View style={styles.containerImage}>
         <Image style={styles.image} source={{ uri: imgFrontDefault }} />
         <Image style={styles.image} source={{ uri: imgBackDefault }} />
@@ -130,78 +170,135 @@ export default function PokemonDetails(props) {
 
       <View style={styles.containerTypes}>
         <View style={styles.type}>
-          <Text style={[pokemonType(pokeType1, styles), styles.type]}>{pokeType1.toUpperCase()}</Text>
+          <Text style={[pokemonType(pokeType1, styles), styles.type]}>
+            {pokeType1.toUpperCase()}
+          </Text>
         </View>
         {pokeType2 ? (
           <View style={styles.type}>
-            <Text style={[pokemonType(pokeType2, styles), styles.type]}>{pokeType2.toUpperCase()}</Text>
+            <Text style={[pokemonType(pokeType2, styles), styles.type]}>
+              {pokeType2.toUpperCase()}
+            </Text>
           </View>
         ) : (
           <></>
         )}
       </View>
 
-      <View style={styles.containerDimensions}>
-        <Text style={styles.title}>Dimensions</Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={{ flex: 1 }}>
-            <Text style={styles.pokeDescription}>
-              Height : {pokemonData.height}"
+      <ScrollView>
+        <View style={styles.containerDimensions}>
+          <Text style={styles.title}>Dimensions</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ flex: 1 }}>
+              <Text style={styles.pokeDescription}>
+                Height : {pokemonData.height}"
+              </Text>
             </Text>
-          </Text>
-          <Text style={{ flex: 1 }}>
-            <Text style={styles.pokeDescription}>
-              Weight : {pokemonData.weight} lbs
+            <Text style={{ flex: 1 }}>
+              <Text style={styles.pokeDescription}>
+                Weight : {pokemonData.weight} lbs
+              </Text>
             </Text>
+          </View>
+        </View>
+        <View style={styles.containerText}>
+          <Text style={styles.title}>About</Text>
+          <Text style={styles.pokeDescriptionText}>
+            {pokemonDesc.replace(/(\n)/g, " ").replace(/\f/, " ")}{" "}
           </Text>
         </View>
-      </View>
-
-      <View style={styles.containerText}>
-        <Text style={styles.title}>About</Text>
-        <Text style={styles.pokeDescriptionText}>
-          {pokemonDesc.replace(/(\n)/g, " ").replace(/\f/, " ")}{" "}
-        </Text>
-      </View>
-
-      <View style={styles.containerText}>
-        <Text style={styles.title}>Base stats</Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={{ flex: 1 }}>
-            <Text style={styles.pokeDescription}>
-              {hp} : {hpStat}
-            </Text>{" "}
-          </Text>
-          <Text style={{ flex: 1 }}>
-            <Text style={styles.pokeDescription}>
-              {defense} : {defenseStat}
+        <View style={styles.containerText}>
+          <Text style={styles.title}>Base stats</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ flex: 1 }}>
+              <Text style={styles.pokeDescription}>
+                {hp.charAt(0).toUpperCase() + hp.charAt(1).toUpperCase()} :{" "}
+                {hpStat}
+              </Text>{" "}
             </Text>
-          </Text>
+            <Text style={{ flex: 1 }}>
+              <Text style={styles.pokeDescription}>
+                {defense.charAt(0).toUpperCase() + defense.slice(1)} :{" "}
+                {defenseStat}
+              </Text>
+            </Text>
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ flex: 1 }}>
+              <Text style={styles.pokeDescription}>
+                {attack.charAt(0).toUpperCase() + attack.slice(1)} :{" "}
+                {attackStat}
+              </Text>
+            </Text>
+            <Text style={{ flex: 1 }}>
+              <Text style={styles.pokeDescription}>
+                {speed.charAt(0).toUpperCase() + speed.slice(1)} : {speedStat}
+              </Text>
+            </Text>
+          </View>
         </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={{ flex: 1 }}>
-            <Text style={styles.pokeDescription}>
-              {attack} : {attackStat}
-            </Text>
-          </Text>
-          <Text style={{ flex: 1 }}>
-            <Text style={styles.pokeDescription}>
-              {speed} : {speedStat}
-            </Text>
-          </Text>
+        <View style={styles.containerButtons}>
+          {team.find((pokemon) => pokemon.name == pokemonData.name) ==
+          undefined ? (
+            team.length >= 6 ? (
+              <Text style={styles.warning}>
+                Please unset a Pokemon to add a new one in your team !
+              </Text>
+            ) : (
+              <TouchableOpacity
+                style={[
+                  styles.actionButton,
+                  {
+                    backgroundColor: addColor,
+                    width: "45%",
+                  },
+                ]}
+              >
+                <Button
+                  onPress={() => addToMyTeam()} // tj passer par une fonction anonyme quand on trigger un event
+                  title={addTitle}
+                  color="white"
+                  accessibilityLabel="To add a pokemon to your team"
+                />
+              </TouchableOpacity>
+            )
+          ) : (
+            <TouchableOpacity
+              style={[
+                styles.actionButton,
+                {
+                  backgroundColor: removeColor,
+                  width: "60%",
+                },
+              ]}
+            >
+              <Button
+                onPress={() => removeFromMyTeam()}
+                title={removeTitle}
+                color="white"
+                accessibilityLabel="To remove a pokemon from your team"
+              />
+            </TouchableOpacity>
+          )}
         </View>
-      </View>
-
-
+      </ScrollView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  warning: {
+    color: "red",
+    fontWeight: "bold",
+  },
+  actionButton: {
+    borderRadius: 15,
+  },
   pokemonName: {
     color: "#b00a00",
     fontSize: 25,
-    margin: 20,
+    margin: 10,
+    marginTop: 20,
     height: 40,
     textAlign: "center",
   },
@@ -221,6 +318,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
+  containerButtons: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   pokeDescriptionText: {
     marginTop: 3,
     fontSize: 15,
@@ -235,10 +336,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   type: {
-    margin: 3,
-    padding: 4,
-    borderRadius: 10, 
-    overflow: "hidden"
+    margin: 1,
+    padding: 7,
+    borderRadius: 15,
+    overflow: "hidden",
   },
   containerImage: {
     height: "20%",
@@ -246,12 +347,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 44,
+    marginHorizontal: 46,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowColor: "black",
-    marginBottom: 13,
+    marginBottom: 10,
   },
   image: {
     flex: 1,
@@ -260,7 +361,7 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#fff",
     borderRadius: 25,
-    margin: 3,
+    margin: 2,
   },
   containerDimensions: {
     backgroundColor: "white",
@@ -272,25 +373,25 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     alignSelf: "center",
-    marginBottom: "1%",
+    marginBottom: 1,
   },
 
-  grass: { backgroundColor: "#78C850" },
-  fire: { backgroundColor: "#F08030" },
-  water: { backgroundColor: "#6890F0" },
-  bug: { backgroundColor: "#A8B820" },
+  grass: { backgroundColor: "#00BF00" },
+  fire: { backgroundColor: "#FF9900" },
+  water: { backgroundColor: "#1595F9" },
+  bug: { backgroundColor: "#E7599F" },
   normal: { backgroundColor: "#A8A878" },
-  poison: { backgroundColor: "#A040A0" },
+  poison: { backgroundColor: "#BF66E5" },
   electric: { backgroundColor: "#F8D030" },
-  typeSol: { backgroundColor: "#E0C068" },
-  typeFee: { backgroundColor: "#EE99AC" },
+  ground: { backgroundColor: "#E0C068" },
+  fairy: { backgroundColor: "#FF8DE8" },
   fighting: { backgroundColor: "#C03028" },
   psychic: { backgroundColor: "#F85888" },
-  rock: { backgroundColor: "#B8A038" },
+  rock: { backgroundColor: "#878373" },
   ghost: { backgroundColor: "#705898" },
   ice: { backgroundColor: "#98D8D8" },
-  dragon: { backgroundColor: "#7038F8" },
+  dragon: { backgroundColor: "#FFBF80" },
   steel: { backgroundColor: "#F8F9FA" },
-  dark: { backgroundColor: "#705848" },
-  flying: { backgroundColor: "#A890F0" },
+  dark: { backgroundColor: "#808080" },
+  flying: { backgroundColor: "#42FDDC" },
 });
