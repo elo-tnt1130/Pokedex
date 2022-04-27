@@ -14,3 +14,7 @@ web-build/
 .DS_Store
 
 components/PokemonCardMine_echec.js
+
+yarn-error.log
+
+yarn.lock
