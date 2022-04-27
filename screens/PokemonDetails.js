@@ -1,16 +1,12 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, Text, View, Image } from "react-native";
-import PokemonCard from "../components/PokemonCard";
 import { getPokemon } from "../API/PokeApi";
+import {backgroundColors} from "../utils/backgroundColors"
 
 export default function PokemonDetails(props) {
-  //* Add a .forEach() on the types to show all types and not only the first
   const { route, navigation, ...restProps } = props;
 
   const pokemonData = route.params.datas;
-  const imgArtWork =
-    pokemonData.sprites.other["official-artwork"].front_default;
   const imgFrontDefault = pokemonData.sprites.front_default;
   const imgBackDefault = pokemonData.sprites.back_default;
   const moreDetails = pokemonData.species.url;
@@ -18,6 +14,15 @@ export default function PokemonDetails(props) {
   const typesPokemon = pokemonData.types;
   const [pokeType1, setPokeType1] = useState("");
   const [pokeType2, setPokeType2] = useState("");
+
+  const hp = pokemonData.stats[0].stat.name;
+  const hpStat = pokemonData.stats[0].base_stat;
+  const defense = pokemonData.stats[1].stat.name;
+  const defenseStat = pokemonData.stats[1].base_stat;
+  const attack = pokemonData.stats[2].stat.name;
+  const attackStat = pokemonData.stats[2].base_stat;
+  const speed = pokemonData.stats[5].stat.name;
+  const speedStat = pokemonData.stats[5].base_stat;
 
   const pokemonTypes = (url) => {
     getPokemon(url).then(() => {
@@ -76,16 +81,36 @@ export default function PokemonDetails(props) {
         )}
       </View>
 
-      <View style={styles.containerText}>
+      <View style={styles.containerDimensions}>
+        <Text style={styles.title}>Dimensions</Text>
         <Text style={styles.pokeDescription}>
           Height : {pokemonData.height}"
         </Text>
         <Text style={styles.pokeDescription}>
           Weight : {pokemonData.weight} lbs
         </Text>
+      </View>
+
+      <View style={styles.containerText}>
+        <Text style={styles.title}>About</Text>
         <Text style={styles.pokeDescriptionText}>
-          Description : {pokemonDesc.replace(/\n/, " ").replace(/\f/, " ")}{" "}
-          {/* regex ! */}
+          {pokemonDesc.replace(/(\n)/g, " ").replace(/\f/, " ")}{" "}
+        </Text>
+      </View>
+
+      <View style={styles.containerText}>
+        <Text style={styles.title}>Base specs</Text>
+        <Text style={styles.pokeDescription}>
+          {hp} : {hpStat}
+        </Text>
+        <Text style={styles.pokeDescription}>
+          {defense} : {defenseStat}
+        </Text>
+        <Text style={styles.pokeDescription}>
+          {attack} : {attackStat}
+        </Text>
+        <Text style={styles.pokeDescription}>
+          {speed} : {speedStat}
         </Text>
       </View>
     </>
@@ -101,14 +126,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   containerText: {
-    margin: 20,
+    backgroundColor: "white",
+    marginBottom: 10,
+    marginHorizontal: 25,
+    padding: 10,
+    borderRadius: 15,
   },
   pokeDescriptionText: {
     marginTop: 3,
-    fontSize: 16,
+    fontSize: 15
   },
   pokeDescription: {
-    fontSize: 16,
+    fontSize: 15,
   },
   containerTypes: {
     display: "flex",
@@ -117,18 +146,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   type: {
-    backgroundColor: "yellow",
+    // backgroundColor: "yellow",
+    backgroundColor: "violet",
     margin: 3,
-    padding: 6,
+    padding: 3,
     borderRadius: 50,
   },
   containerImage: {
-    height: "25%",
-    width: "85%",
+    height: "20%",
+    width: "75%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 28,
+    marginHorizontal: 44,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
@@ -144,4 +174,15 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     margin: 3,
   },
+  containerDimensions: {
+    backgroundColor: "white",
+    marginVertical: 10,
+    marginHorizontal: 25,
+    padding: 10,
+    borderRadius: 15,
+  },
+  title: {
+    fontWeight: 'bold',
+    alignSelf: "center"
+  }
 });
