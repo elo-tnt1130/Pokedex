@@ -14,9 +14,9 @@ export default function Settings() {
 
           <View style={styles.container}>
             <View style={styles.containerOrientationElement}>
-              <Ionicons
+              <Ionicons 
+                style={styles.icons}
                 name="phone-portrait"
-                size="45"
                 color="#b00a00"
               ></Ionicons>
               <Text> Portrait </Text>
@@ -28,8 +28,8 @@ export default function Settings() {
 
             <View style={styles.containerOrientationElement}>
               <Ionicons
+                style={styles.icons}
                 name="phone-landscape"
-                size="45"
                 color="#b00a00"
               ></Ionicons>
               <Text> Paysage </Text>
@@ -67,6 +67,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 15,
     paddingBottom: 25,
+  },
+  icons: {
+    fontSize: 45
   },
   containerOrientationElement: {
     flex: 0,
