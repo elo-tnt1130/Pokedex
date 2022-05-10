@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { getPokemon } from "../API/PokeApi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function PokemonCard(props) {
   const { url, name, navigation, ...restProps } = props;
@@ -8,14 +8,16 @@ export default function PokemonCard(props) {
   const [pokemonData, setPokemonData] = useState([]);
   const [pokemonImg, setPokemonImg] = useState(null);
 
-  if (pokemonData.length === 0) {
-    getPokemon(url).then((data) => {
-      setPokemonData(data);
-      getPokemon(data.forms[0].url).then((imgData) => {
-        setPokemonImg(imgData.sprites);
+  useEffect(() => {
+    // if (pokemonData.length === 0) {
+      getPokemon(url).then((data) => {
+        setPokemonData(data);
+        getPokemon(data.forms[0].url).then((imgData) => {
+          setPokemonImg(imgData.sprites);
+        });
       });
-    });
-  }
+    // }
+  }, []);
 
   return (
     <TouchableOpacity
@@ -32,7 +34,9 @@ export default function PokemonCard(props) {
         {pokemonImg ? (
           <Image
             style={styles.image}
-            source={{ uri: pokemonData.sprites.other["official-artwork"].front_default }}
+            source={{
+              uri: pokemonData.sprites.other["official-artwork"].front_default,
+            }}
           />
         ) : (
           <Image

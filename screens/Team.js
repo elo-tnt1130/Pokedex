@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View, Image } from "react-native";
 import { retrieveData } from "../utils/localStorage";
 import PokemonCard from "../components/PokemonCard";
-import { getPokemon } from "../API/PokeApi";
 
 export default function Team(props) {
   const { route, navigation, ...restProps } = props;
@@ -15,7 +14,7 @@ export default function Team(props) {
     retrieveData("Team").then((res) => {
       if (res) {
         let datas = JSON.parse(res);
-        console.log(datas);
+        console.log(datas[0]);
         setTeam(datas);
       }
     });
@@ -29,7 +28,7 @@ export default function Team(props) {
           data={team}
           numColumns={3}
           renderItem={({ item }) => (
-            <PokemonCard name={item.name} url={item.url} navigation={navigation}/>
+            <PokemonCard name={item.name} url={"https://pokeapi.co/api/v2/pokemon/"+item.id } navigation={navigation}/>
           )}
           keyExtractor={(item) => item.name}
           style={styles.list}
