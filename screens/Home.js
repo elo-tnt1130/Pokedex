@@ -26,12 +26,6 @@ export default function Home(props) {
     });
   };
 
-  // const [textParent, setTextParent] = useState("Default");
-
-  useEffect(() => {
-    // console.log("Composant chargé en page d'accueil");
-  }, []);
-
   return (
     <>
       <Image source={image} resizeMode="contain" style={styles.image}></Image>

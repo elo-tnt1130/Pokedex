@@ -242,7 +242,8 @@ export default function PokemonDetails(props) {
           undefined ? (
             team.length >= 6 ? (
               <Text style={styles.warning}>
-                You already have 6 Pokemons in your team. {"\n"} Please unset a Pokemon from your team to add a new one !
+                You already have 6 Pokemons in your team. {"\n"} Please unset a
+                Pokemon from your team to add a new one !
               </Text>
             ) : (
               <TouchableOpacity
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
     color: "red",
     fontWeight: "bold",
     marginHorizontal: 5,
-    textAlign: "center"
+    textAlign: "center",
   },
   actionButton: {
     borderRadius: 15,

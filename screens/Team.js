@@ -14,7 +14,6 @@ export default function Team(props) {
     retrieveData("Team").then((res) => {
       if (res) {
         let datas = JSON.parse(res);
-        console.log(datas[0]);
         setTeam(datas);
       }
     });

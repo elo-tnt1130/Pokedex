@@ -17,7 +17,9 @@ export default function PokemonCard(props) {
         });
       });
     // }
+
   }, []);
+
 
   return (
     <TouchableOpacity
