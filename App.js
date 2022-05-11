@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import Navigation from "./navigation/navigation";
 
+// import Orientation from "react-native-orientation";
+import * as ScreenOrientation from 'expo-screen-orientation'
+
 export default function App() {
 
-  return (
-    <Navigation></Navigation>
-  )
+  const [orientationIsLandscape,setOrientation]=useState(true)
+
+  // useEffect(() => {
+  //   Orientation.unlockAllOrientations();
+  // }, []);
+  
+  return <Navigation></Navigation>;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
     alignItems: "center",
-    // justifyContent: 'center',
   },
   image: {
     flex: 1,
