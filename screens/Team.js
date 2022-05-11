@@ -1,6 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, View, Image } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { retrieveData } from "../utils/localStorage";
 import PokemonCard from "../components/PokemonCard";
 
@@ -10,14 +16,12 @@ export default function Team(props) {
   const [team, setTeam] = useState([]);
 
   useEffect(() => {
-    
     retrieveData("Team").then((res) => {
       if (res) {
         let datas = JSON.parse(res);
         setTeam(datas);
       }
     });
-
   }, []);
 
   return (
@@ -27,12 +31,43 @@ export default function Team(props) {
           data={team}
           numColumns={3}
           renderItem={({ item }) => (
-            <PokemonCard name={item.name} url={"https://pokeapi.co/api/v2/pokemon/"+item.id } navigation={navigation}/>
+            <PokemonCard
+              name={item.name}
+              url={"https://pokeapi.co/api/v2/pokemon/" + item.id}
+              navigation={navigation}
+            />
           )}
           keyExtractor={(item) => item.name}
           style={styles.list}
           onEndReachedThreshold={0.5}
         />
+      </View>
+
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={[
+            styles.actionButton,
+            {
+              backgroundColor: "#b00a00",
+              width: "60%",
+            },
+          ]}
+
+        >
+          <Button
+            color="white"
+            title="Actualiser"
+            accessibilityLabel="To refresh the page"
+            onPress={() =>
+            retrieveData("Team").then((res) => {
+              if (res) {
+                let datas = JSON.parse(res);
+                setTeam(datas);
+              }
+            })
+          }
+          ></Button>
+        </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </>
@@ -43,5 +78,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 0,
     alignItems: "center",
+    justifyContent: "center",
+  },
+  actionButton: {
+    borderRadius: 15,
   },
 });
