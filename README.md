@@ -12,5 +12,4 @@
 # Rotation de l'écran selon l'orientation du device
 # Accès à la galerie de photos
 
-# Démonstration sous iOS
-<iframe width="560" height="315" src="https://www.youtube.com/embed/X6o83gjihhQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+# Démonstration sous iOS (iPhone X)
