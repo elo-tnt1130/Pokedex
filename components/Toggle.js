@@ -9,8 +9,8 @@ export default function Toggle() {
     <>
       
           <Switch
-            trackColor={{ false: "#707070", true: "#FF9900" }}
-            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            trackColor={{ false: "#707070", true: "#F33538" }}
+            thumbColor={isEnabled ? "#FFF" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}
             value={isEnabled}
