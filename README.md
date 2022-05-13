@@ -13,4 +13,5 @@
 # Accès à la galerie de photos
 
 # Démonstration sous iOS (iPhone X)
-https://user-images.githubusercontent.com/76809546/167905405-539fcaf2-a59f-4d2e-ad46-4e3134d2a356.mp4
+https://user-images.githubusercontent.com/76809546/168258936-79435316-700c-4f5d-b710-0b801fb704e3.MP4
+
