@@ -7,7 +7,6 @@ import {
   Text,
   Button,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { retrieveData, storeData } from "../utils/localStorage";
 import PokemonCard from "../components/PokemonCard";
@@ -35,15 +34,79 @@ export default function Team(props) {
   }, []);
 
   return (
-    <ScrollView>
+    <>
       <View style={styles.container}>
         <View style={styles.contains}>
           {team <= 0 ? (
-            <Text style={styles.noPokemon}>
-              Vous n'avez aucun pokémon dans votre équipe.
-            </Text>
+            <View
+              style={{
+                justifyContent: "center",
+              }}
+            >
+              <View
+                style={{
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.noPokemon}>
+                  Vous n'avez aucun pokémon dans votre équipe.
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderRadius: 15,
+                  marginBottom: 3,
+                  marginHorizontal: 50,
+                  height: 40,
+                  alignItems: "center",
+                  width: 300,
+                }}
+              >
+                <TouchableOpacity
+                  style={[
+                    styles.actionButton,
+                    {
+                      backgroundColor: "#b00a00",
+                      width: "60%",
+                    },
+                  ]}
+                >
+                  <Button
+                    color="white"
+                    title="Actualiser"
+                    accessibilityLabel="To refresh the page"
+                    onPress={() =>
+                      retrieveData("Team").then((res) => {
+                        if (res) {
+                          let datas = JSON.parse(res);
+                          setTeam(datas);
+                        }
+                      })
+                    }
+                  ></Button>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.actionButton,
+                    {
+                      backgroundColor: "#ff0000",
+                      width: "60%",
+                    },
+                  ]}
+                >
+                  <Button
+                    color="white"
+                    title="Réinitialiser l'équipe"
+                    accessibilityLabel="To reset the team"
+                    onPress={() => resetTeam()}
+                  ></Button>
+                </TouchableOpacity>
+              </View>
+            </View>
           ) : (
             <FlatList
+              scrollEnabled={true}
               data={team}
               numColumns={3}
               renderItem={({ item }) => (
@@ -55,54 +118,71 @@ export default function Team(props) {
               )}
               keyExtractor={(item) => item.name}
               style={styles.list}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    justifyContent: "center",
+                  }}
+                >
+                  <View
+                    style={{
+                      borderRadius: 15,
+                      margin: 3,
+                      height: 40,
+                      flexDirection: "row",
+                      width: 300,
+                    }}
+                  >
+                    <TouchableOpacity
+                      style={[
+                        styles.actionButton,
+                        {
+                          backgroundColor: "#b00a00",
+                          width: "60%",
+                        },
+                      ]}
+                    >
+                      <Button
+                        color="white"
+                        title="Actualiser"
+                        accessibilityLabel="To refresh the page"
+                        onPress={() =>
+                          retrieveData("Team").then((res) => {
+                            if (res) {
+                              let datas = JSON.parse(res);
+                              setTeam(datas);
+                            }
+                          })
+                        }
+                      ></Button>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.actionButton,
+                        {
+                          backgroundColor: "#ff0000",
+                          width: "60%",
+                        },
+                      ]}
+                    >
+                      <Button
+                        color="white"
+                        title="Réinitialiser l'équipe"
+                        accessibilityLabel="To reset the team"
+                        onPress={() => resetTeam()}
+                      ></Button>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
             />
           )}
         </View>
-
-        <TouchableOpacity
-          style={[
-            styles.actionButton,
-            {
-              backgroundColor: "#b00a00",
-              width: "60%",
-            },
-          ]}
-        >
-          <Button
-            color="white"
-            title="Actualiser"
-            accessibilityLabel="To refresh the page"
-            onPress={() =>
-              retrieveData("Team").then((res) => {
-                if (res) {
-                  let datas = JSON.parse(res);
-                  setTeam(datas);
-                }
-              })
-            }
-          ></Button>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.actionButton,
-            {
-              backgroundColor: "#ff0000",
-              width: "60%",
-            },
-          ]}
-        >
-          <Button
-            color="white"
-            title="Réinitialiser l'équipe"
-            accessibilityLabel="To reset the team"
-            onPress={() => resetTeam()}
-          ></Button>
-        </TouchableOpacity>
       </View>
 
       <StatusBar style="auto" />
-    </ScrollView>
+    </>
   );
 }
 
@@ -119,7 +199,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     borderRadius: 15,
-    margin: 5,
+    margin: 3,
     height: 40,
   },
   noPokemon: {
