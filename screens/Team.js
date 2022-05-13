@@ -4,16 +4,26 @@ import {
   StyleSheet,
   FlatList,
   View,
+  Text,
   Button,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import { retrieveData } from "../utils/localStorage";
+import { retrieveData, storeData } from "../utils/localStorage";
 import PokemonCard from "../components/PokemonCard";
 
 export default function Team(props) {
   const { route, navigation, ...restProps } = props;
 
   const [team, setTeam] = useState([]);
+
+  const resetTeam = () => {
+    let myTeam = [];
+
+    setTeam(myTeam);
+
+    storeData("Team", JSON.stringify(myTeam));
+  };
 
   useEffect(() => {
     retrieveData("Team").then((res) => {
@@ -25,25 +35,30 @@ export default function Team(props) {
   }, []);
 
   return (
-    <>
+    <ScrollView>
       <View style={styles.container}>
-        <FlatList
-          data={team}
-          numColumns={3}
-          renderItem={({ item }) => (
-            <PokemonCard
-              name={item.name}
-              url={"https://pokeapi.co/api/v2/pokemon/" + item.id}
-              navigation={navigation}
+        <View style={styles.contains}>
+          {team <= 0 ? (
+            <Text style={styles.noPokemon}>
+              Vous n'avez aucun pokémon dans votre équipe.
+            </Text>
+          ) : (
+            <FlatList
+              data={team}
+              numColumns={3}
+              renderItem={({ item }) => (
+                <PokemonCard
+                  name={item.name}
+                  url={"https://pokeapi.co/api/v2/pokemon/" + item.id}
+                  navigation={navigation}
+                />
+              )}
+              keyExtractor={(item) => item.name}
+              style={styles.list}
             />
           )}
-          keyExtractor={(item) => item.name}
-          style={styles.list}
-          onEndReachedThreshold={0.5}
-        />
-      </View>
+        </View>
 
-      <View style={styles.container}>
         <TouchableOpacity
           style={[
             styles.actionButton,
@@ -52,35 +67,65 @@ export default function Team(props) {
               width: "60%",
             },
           ]}
-
         >
           <Button
             color="white"
             title="Actualiser"
             accessibilityLabel="To refresh the page"
             onPress={() =>
-            retrieveData("Team").then((res) => {
-              if (res) {
-                let datas = JSON.parse(res);
-                setTeam(datas);
-              }
-            })
-          }
+              retrieveData("Team").then((res) => {
+                if (res) {
+                  let datas = JSON.parse(res);
+                  setTeam(datas);
+                }
+              })
+            }
+          ></Button>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.actionButton,
+            {
+              backgroundColor: "#ff0000",
+              width: "60%",
+            },
+          ]}
+        >
+          <Button
+            color="white"
+            title="Réinitialiser l'équipe"
+            accessibilityLabel="To reset the team"
+            onPress={() => resetTeam()}
           ></Button>
         </TouchableOpacity>
       </View>
+
       <StatusBar style="auto" />
-    </>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contains: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   actionButton: {
     borderRadius: 15,
+    margin: 5,
+    height: 40,
+  },
+  noPokemon: {
+    margin: 15,
+  },
+  list: {
+    width: 375,
   },
 });
