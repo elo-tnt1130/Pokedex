@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, TextInput, Text, View } from "react-native";
-import PokemonCard from "./PokemonCard";
+import { StyleSheet, TextInput, Text, View } from "react-native";
 import PokemonCardSearch from "./PokemonCardSearch";
-import { getPokemon, getSearchedPokemon } from "../API/PokeApi";
+import { getSearchedPokemon } from "../API/PokeApi";
 
 const searchPokemonInput = (props) => {
   const [text, setText] = React.useState(null);
@@ -35,7 +34,6 @@ const searchPokemonInput = (props) => {
         {searchedPokemon ? (
           <PokemonCardSearch
             data={searchedPokemon}
-            // url={}
             navigation={navigation}
           />
         ) : (

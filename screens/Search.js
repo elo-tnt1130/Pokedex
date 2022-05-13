@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, Text, View, Image } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import SearchPokemon from '../components/SearchBox'
 
 export default function Search(props) {

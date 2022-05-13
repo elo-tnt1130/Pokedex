@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, ScrollView, View, Text } from "react-native";
 import Toggle from "../components/Toggle";
 
 export default function Settings() {
   return (
-    <>
+    <ScrollView>
       <View style={styles.body}>
         <View style={styles.section}>
           <View style={styles.container}>
@@ -57,7 +57,7 @@ export default function Settings() {
             </View>
           </View>
       </View>
-    </>
+    </ScrollView>
   );
 }
 
